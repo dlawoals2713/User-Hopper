@@ -76,7 +76,7 @@ public class ShizukuShell {
 
     private void saveLogToFile(String command, String output) {
         try {
-            File dir = new File(Environment.getExternalStorageDirectory(), "Documents/manager");
+            File dir = new File(Environment.getExternalStorageDirectory(), "Documents/GuestManager");
             if (!dir.exists()) {
                 dir.mkdirs();
             }

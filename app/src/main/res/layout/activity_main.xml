@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
     android:layout_width="match_parent"
@@ -12,7 +11,7 @@
         android:id="@+id/refresh"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:contentDescription="Refresh"
+        android:contentDescription="@string/ui_refresh"
         android:src="@drawable/ic_oui_refresh"
         android:background="?listChoiceBackgroundIndicator"
         android:layout_gravity="end"/>
@@ -36,41 +35,41 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="게스트 계정 생성"/>
+            android:text="@string/ui_create"/>
 
         <Button
             android:id="@+id/install_shizuku"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="Shizuku 앱 설치"/>
+            android:text="@string/ui_install_shizuku"/>
 
         <Button
             android:id="@+id/install_manager"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="매니저 앱 설치"/>
+            android:text="@string/ui_install_manager"/>
 
         <Button
             android:id="@+id/guest_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="게스트 시작"/>
+            android:text="@string/ui_guest_start"/>
 
         <Button
             android:id="@+id/guest_exit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="게스트 종료"/>
+            android:text="@string/ui_guest_exit"/>
 
         <Button
             android:id="@+id/guest_destroy"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:enabled="false"
-            android:text="게스트 삭제"/>
+            android:text="@string/ui_guest_destroy"/>
     </LinearLayout>
 </FrameLayout>

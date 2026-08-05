@@ -24,6 +24,7 @@ import rikka.shizuku.Shizuku;
 public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private int GUEST_USER_ID = -1;
+    private final String shizukuPackage = "moe.shizuku.privileged.api";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,18 +40,18 @@ public class MainActivity extends AppCompatActivity {
         Shizuku.addRequestPermissionResultListener(REQUEST_PERMISSION_RESULT_LISTENER);
         try {
             PackageManager packageManager = getPackageManager();
-            PackageInfo packageInfo = packageManager.getPackageInfo("moe.shizuku.privileged.api", PackageManager.GET_ACTIVITIES);
+            PackageInfo packageInfo = packageManager.getPackageInfo(shizukuPackage, PackageManager.GET_ACTIVITIES);
             if (packageInfo != null) {
                 if (Shizuku.pingBinder()) {
                     Shizuku.requestPermission(69);
                 } else {
-                    Toast.makeText(this, "Shizuku 서비스가 시작되지 않았습니다!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.err_shizuku_not_started), Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(this, "Shizuku가 설치되어 있지 않습니다. 실행할 수 없습니다.", Toast.LENGTH_LONG).show();
+                Toast.makeText(this, getString(R.string.err_shizuku_not_installed), Toast.LENGTH_LONG).show();
             }
         } catch (PackageManager.NameNotFoundException e) {
-            Toast.makeText(this, "Shizuku가 설치되어 있지 않습니다. 실행할 수 없습니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.err_shizuku_not_installed), Toast.LENGTH_LONG).show();
         }
 
         binding.refresh.setOnClickListener(v -> recreate());
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.installShizuku.setOnClickListener(v -> {
-            String command = "pm install-existing --user " + GUEST_USER_ID + " moe.shizuku.privileged.api";
+            String command = "pm install-existing --user " + GUEST_USER_ID + " " + shizukuPackage;
             _executeCommand(command, 2);
         });
 
@@ -74,26 +75,26 @@ public class MainActivity extends AppCompatActivity {
             String command = "am switch-user " + GUEST_USER_ID;
             _executeCommand(command, 4);
 
-            binding.textview.setText("게스트를 시작하는 중\n절대 세션을 다시 시작 하지 마세요!");
+            binding.textview.setText(getString(R.string.run_guest_start));
         });
 
         binding.guestExit.setOnClickListener(v -> {
             String command = "am switch-user 0";
             _executeCommand(command, 5);
 
-            binding.textview.setText("게스트를 종료하는 중");
+            binding.textview.setText(getString(R.string.run_guest_exit));
         });
 
         binding.guestDestroy.setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
-                .setTitle("주의")
-                .setMessage("게스트 사용자를 제거하면 게스트 사용자 내에 저장된 모든 데이터가 영구적으로 삭제됩니다!")
-                .setPositiveButton("삭제", (_dialog, _d) -> {
+                .setTitle(getString(R.string.del_guest_title))
+                .setMessage(getString(R.string.del_guest_message))
+                .setPositiveButton(getString(R.string.run_guest_destroy), (_dialog, _d) -> {
                     String command = "pm remove-user " + GUEST_USER_ID;
                     _executeCommand(command, 4);
 
-                    binding.textview.setText("게스트를 삭제하는 중");
+                    binding.textview.setText(getString(R.string.run_guest_destroy));
                 })
-                .setNegativeButton("취소", null)
+                .setNegativeButton(getString(R.string.del_guest_negative), null)
                 .show());
     }
 
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity {
             enableDestroyButton();
         } else if (option == 2) {
             enableDestroyButton();
-            checkPackageInstalledForUser("moe.shizuku.privileged.api", isInstalled -> {
+            checkPackageInstalledForUser(shizukuPackage, isInstalled -> {
                 if (isInstalled) {
                     changeStatus(3);
                 } else {
@@ -147,10 +148,10 @@ public class MainActivity extends AppCompatActivity {
     private final Shizuku.OnRequestPermissionResultListener REQUEST_PERMISSION_RESULT_LISTENER = (requestCode, grantResult) -> {
         boolean granted = grantResult == PackageManager.PERMISSION_GRANTED;
         if (granted) {
-            Toast.makeText(this, "권한 허용됨", Toast.LENGTH_SHORT).show();
+            binding.textview.setText(R.string.per_granted);
             updateStatus(1);
         } else {
-            Toast.makeText(this, "권한이 거부되었어요", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.per_denied), Toast.LENGTH_SHORT).show();
         }
     };
 
@@ -160,7 +161,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         ProgressDialog progressDialog = new ProgressDialog(this);
-        progressDialog.setMessage("실행하는 중...");
+        progressDialog.setMessage(getString(R.string.run_cmd_running));
         progressDialog.setCancelable(false);
         if (progressDialog != null && !progressDialog.isShowing()) {
             progressDialog.show();
@@ -171,36 +172,36 @@ public class MainActivity extends AppCompatActivity {
                 progressDialog.dismiss();
 
                 if (!stderr.isEmpty()) {
-                    Toast.makeText(this, "오류 발생:\n" + stderr, Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, getString(R.string.err_accoured, stderr), Toast.LENGTH_LONG).show();
                     saveLogToFile(_cmd, stderr);
                 } else if (!stdout.isEmpty()) {
                     if (option == 0) {
-                        binding.textview.setText("게스트 프로필 생성 완료");
+                        binding.textview.setText(getString(R.string.suc_guest_created));
                         updateStatus(1);
                     } else if (option == 1) {
                         int parsedId = parseGuestUserId(stdout);
                         if (parsedId != -1) {
                             GUEST_USER_ID = parsedId;
-                            binding.textview.setText( "게스트 ID 감지됨: " + GUEST_USER_ID);
+                            binding.textview.setText(getString(R.string.suc_guest_detected, String.valueOf(GUEST_USER_ID)));
                             updateStatus(2);
                         } else {
-                            binding.textview.setText("게스트 유저를 찾을 수 없습니다.");
+                            binding.textview.setText(getString(R.string.err_guest_not_detected));
                             updateStatus(0);
                         }
                     } else if (option == 2) {
-                        binding.textview.setText("Shizuku 설치 완료");
+                        binding.textview.setText(getString(R.string.suc_shizuku_installed));
                         updateStatus(3);
                     } else if (option == 3) {
-                        binding.textview.setText("매니저 설치 완료");
+                        binding.textview.setText(getString(R.string.suc_manager_installed));
                         updateStatus(4);
                     } else if (option == 4) {
-                        binding.textview.setText("게스트 삭제 완료");
+                        binding.textview.setText(getString(R.string.suc_guest_destroyed));
                         recreate();
                     } else {
-                        Toast.makeText(this, "성공:\n" + stdout, Toast.LENGTH_SHORT).show();
+                        Toast.makeText(this, getString(R.string.suc_responded, stdout), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Toast.makeText(this, "출력이 없습니다.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, getString(R.string.err_cmd_not_response), Toast.LENGTH_SHORT).show();
                 }
             }));
             sh.exec();
@@ -263,7 +264,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveLogToFile(String command, String output) {
         try {
-            File dir = new File(Environment.getExternalStorageDirectory(), "Documents/manager");
+            File dir = new File(Environment.getExternalStorageDirectory(), "Documents/GuestManager");
             if (!dir.exists()) {
                 dir.mkdirs();
             }

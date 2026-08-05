@@ -18,7 +18,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Manage"
+        android:theme="@style/Theme.Manager"
+        android:localeConfig="@xml/locale_config"
         tools:targetApi="31">
         <activity
             android:name=".MainActivity"
