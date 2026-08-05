@@ -26,50 +26,58 @@
             android:id="@+id/textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="20dp"
+            android:textSize="20sp"
             android:gravity="center"
+            android:text="@string/app_name"
             android:layout_marginBottom="24dp"/>
 
-        <Button
-            android:id="@+id/create"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/ui_create"/>
+            android:orientation="vertical"
+            android:gravity="center">
 
-        <Button
-            android:id="@+id/install_shizuku"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/ui_install_shizuku"/>
+            <Button
+                android:id="@+id/create"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/ui_create"/>
 
-        <Button
-            android:id="@+id/install_manager"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/ui_install_manager"/>
+            <Button
+                android:id="@+id/install_shizuku"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/ui_install_shizuku"/>
 
-        <Button
-            android:id="@+id/guest_start"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/ui_guest_start"/>
+            <Button
+                android:id="@+id/install_manager"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/ui_install_manager"/>
 
-        <Button
-            android:id="@+id/guest_exit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/ui_guest_exit"/>
+            <Button
+                android:id="@+id/guest_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/ui_guest_start"/>
 
-        <Button
-            android:id="@+id/guest_destroy"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:enabled="false"
-            android:text="@string/ui_guest_destroy"/>
+            <Button
+                android:id="@+id/guest_exit"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/ui_guest_exit"/>
+
+            <Button
+                android:id="@+id/guest_destroy"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/ui_guest_destroy"/>
+        </LinearLayout>
     </LinearLayout>
 </FrameLayout>
