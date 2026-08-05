@@ -47,3 +47,5 @@ google-services.json
 java_pid*.hprof
 *.trace
 /.idea/
+/app/release/
+/gradle/
