@@ -53,6 +53,8 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, "Shizuku가 설치되어 있지 않습니다. 실행할 수 없습니다.", Toast.LENGTH_LONG).show();
         }
 
+        binding.refresh.setOnClickListener(v -> recreate());
+
         binding.create.setOnClickListener(v -> {
             String command = "pm create-user --guest Guest";
             _executeCommand(command, 0);
