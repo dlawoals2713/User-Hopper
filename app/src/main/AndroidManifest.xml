@@ -21,6 +21,12 @@
         android:theme="@style/Theme.Manager"
         android:localeConfig="@xml/locale_config"
         tools:targetApi="31">
+        <meta-data
+            android:name="SamsungBasicInteraction"
+            android:value="SEP10" />
+        <meta-data
+            android:name="theming-meta"
+            android:value="meta_998_sesl_app" />
         <activity
             android:name=".MainActivity"
             android:exported="true">
