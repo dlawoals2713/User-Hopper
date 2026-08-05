@@ -1,0 +1,61 @@
+plugins {
+    alias(libs.plugins.android.application)
+}
+
+android {
+    namespace 'com.dlawoals2713.guest.manager'
+    compileSdk 36
+
+    defaultConfig {
+        applicationId 'com.dlawoals2713.guest.manager'
+        minSdk 24
+        //noinspection ExpiredTargetSdkVersion
+        targetSdk 29
+        versionCode 1
+        versionName "1.0.1"
+
+        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+    }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled = false
+            shrinkResources = false
+
+            debuggable = true
+            applicationIdSuffix = ".debug"
+            versionNameSuffix = "-DEBUG"
+        }
+        release {
+            minifyEnabled = true
+            shrinkResources = true
+
+            debuggable = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}
+
+dependencies {
+    implementation "dev.rikka.shizuku:api:13.1.0"
+    //noinspection GradleDependency
+    implementation "dev.rikka.shizuku:provider:13.1.0"
+
+    implementation libs.appcompat
+    implementation libs.material
+    implementation libs.activity
+    implementation libs.constraintlayout
+    testImplementation libs.junit
+    androidTestImplementation libs.ext.junit
+    androidTestImplementation libs.espresso.core
+}
