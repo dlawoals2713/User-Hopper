@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
         binding.guestDestroy.setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.del_guest_title))
                 .setMessage(getString(R.string.del_guest_message))
-                .setPositiveButton(getString(R.string.run_guest_destroy), (_dialog, _d) -> {
+                .setPositiveButton(getString(R.string.del_guest_positive), (_dialog, _d) -> {
                     String command = "pm remove-user " + GUEST_USER_ID;
                     _executeCommand(command, 4);
 
