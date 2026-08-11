@@ -144,11 +144,17 @@ public class MainActivity extends AppCompatActivity {
             });
         } else if (option == 4) {
             enableDestroyButton();
-            if (getCurrentUserId() == GUEST_USER_ID) {
-                binding.guestExit.setEnabled(true);
-            } else {
-                binding.guestStart.setEnabled(true);
-            }
+            getCurrentUserId(userId -> {
+                if (userId == -1) {
+                    return;
+                }
+
+                if (userId == GUEST_USER_ID) {
+                    binding.guestExit.setEnabled(true);
+                } else {
+                    binding.guestStart.setEnabled(true);
+                }
+            });
         }
     }
 
@@ -252,21 +258,29 @@ public class MainActivity extends AppCompatActivity {
         }).start();
     }
 
-    private int getCurrentUserId() {
-        String path = Environment.getExternalStorageDirectory().getAbsolutePath();
+    private void getCurrentUserId(OnUserIdResultListener listener) {
+        ShizukuShell sh = new ShizukuShell(this, "am get-current-user", (stdout, stderr) -> runOnUiThread(() -> {
+            if (!stderr.isEmpty()) {
+                listener.onResult(-1);
+                return;
+            }
 
-        Pattern pattern = Pattern.compile("/storage/emulated/(\\d+)");
-        Matcher matcher = pattern.matcher(path);
+            try {
+                listener.onResult(Integer.parseInt(stdout.trim()));
+            } catch (NumberFormatException e) {
+                listener.onResult(-1);
+            }
+        }));
 
-        if (matcher.find()) {
-            return Integer.parseInt(matcher.group(1));
-        }
+        new Thread(sh::exec).start();
+    }
 
-        return 0;
+    private interface OnUserIdResultListener {
+        void onResult(int userId);
     }
 
     private void enableDestroyButton() {
-        binding.guestDestroy.setEnabled(getCurrentUserId() != GUEST_USER_ID);
+        getCurrentUserId(userId -> binding.guestDestroy.setEnabled(userId != -1 && userId != GUEST_USER_ID));
     }
 
     private void saveLogToFile(String command, String output) {
