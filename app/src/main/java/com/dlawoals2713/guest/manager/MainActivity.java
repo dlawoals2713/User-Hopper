@@ -168,7 +168,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         new Thread(() -> {
-            ShizukuShell sh = new ShizukuShell(_cmd, (stdout, stderr) -> runOnUiThread(() -> {
+            ShizukuShell sh = new ShizukuShell(this, _cmd, (stdout, stderr) -> runOnUiThread(() -> {
                 progressDialog.dismiss();
 
                 if (!stderr.isEmpty()) {
@@ -235,7 +235,7 @@ public class MainActivity extends AppCompatActivity {
         String cmd = "pm list packages --user " + GUEST_USER_ID + " " + packageName;
 
         new Thread(() -> {
-            ShizukuShell sh = new ShizukuShell(cmd, (stdout, stderr) -> runOnUiThread(() -> {
+            ShizukuShell sh = new ShizukuShell(getApplicationContext(), cmd, (stdout, stderr) -> runOnUiThread(() -> {
                 boolean isInstalled = stdout.contains("package:" + packageName);
                 if (listener != null) {
                     listener.onResult(isInstalled);

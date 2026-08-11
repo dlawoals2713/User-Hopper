@@ -1,6 +1,7 @@
 package com.dlawoals2713.guest.manager;
 
 import android.os.Environment;
+import android.content.Context;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -16,12 +17,19 @@ public class ShizukuShell {
     private String mStdErr = "";
     private String mCommand;
     private String mDir = "/";
+    private final File logDir;
     private ShizukuRemoteProcess mProcess = null;
     private OnProcessCompleteListener mListener;
 
-    public ShizukuShell(String command, OnProcessCompleteListener listener) {
+    public ShizukuShell(Context context, String command, OnProcessCompleteListener listener) {
         mCommand = command;
         mListener = listener;
+
+        logDir = new File(context.getExternalFilesDir(null), "GuestManager");
+
+        if (!logDir.exists()) {
+            logDir.mkdirs();
+        }
     }
 
     public void exec() {
@@ -76,18 +84,12 @@ public class ShizukuShell {
 
     private void saveLogToFile(String command, String output) {
         try {
-            File dir = new File(Environment.getExternalStorageDirectory(), "Documents/GuestManager");
-            if (!dir.exists()) {
-                dir.mkdirs();
+            File logFile = new File(logDir, "command_log.txt");
+
+            try (FileWriter writer = new FileWriter(logFile, true)) {
+                writer.write(">>manager$ " + command + "\n");
+                writer.write(output + "\n");
             }
-
-            File logFile = new File(dir, "command_log.txt");
-            FileWriter writer = new FileWriter(logFile, true); // append 모드
-
-            writer.write(">>manager$ " + command + "\n");
-            writer.write(output + "\n");
-            writer.flush();
-            writer.close();
         } catch (IOException e) {
             e.printStackTrace();
         }
