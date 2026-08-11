@@ -19,8 +19,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.Manager"
-        android:localeConfig="@xml/locale_config"
-        tools:targetApi="31">
+        android:localeConfig="@xml/locale_config">
         <meta-data
             android:name="SamsungBasicInteraction"
             android:value="SEP10" />
