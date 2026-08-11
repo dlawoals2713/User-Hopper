@@ -14,7 +14,7 @@
     <string name="run_guest_start">Starting Guest…\nDO NOT Start over the session!</string>
     <string name="run_guest_exit">Returning to Owner</string>
     <string name="run_guest_destroy">Removing the Guest</string>
-    <string name="run_cmd_running">Command Running…</string>
+    <string name="run_cmd_running">Command is running…</string>
     <string name="per_granted">Shizuku permission was granted</string>
     <string name="per_denied">Shizuku permission was not granted</string>
     <string name="del_guest_title">Warning</string>
