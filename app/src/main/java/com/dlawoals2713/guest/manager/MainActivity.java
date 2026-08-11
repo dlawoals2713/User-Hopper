@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity {
         ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage(getString(R.string.run_cmd_running));
         progressDialog.setCancelable(false);
-        if (progressDialog != null && !progressDialog.isShowing()) {
+        if (!progressDialog.isShowing()) {
             progressDialog.show();
         }
 
