@@ -98,6 +98,13 @@ public class MainActivity extends AppCompatActivity {
                 .show());
     }
 
+    @Override
+    protected void onDestroy() {
+        Shizuku.removeRequestPermissionResultListener(REQUEST_PERMISSION_RESULT_LISTENER);
+
+        super.onDestroy();
+    }
+
     private void updateStatus(int option) {
         binding.create.setEnabled(false);
         binding.installShizuku.setEnabled(false);
