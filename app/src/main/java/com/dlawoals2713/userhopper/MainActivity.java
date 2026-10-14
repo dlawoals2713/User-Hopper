@@ -1,8 +1,10 @@
 package com.dlawoals2713.userhopper;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.widget.Toast;
@@ -37,6 +39,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        if (Build.MANUFACTURER.equalsIgnoreCase("samsung")) {
+            try {
+                int version = Build.VERSION.class.getDeclaredField("SEM_PLATFORM_INT").getInt(null) - 90000;
+
+                if (version >= 80500) {
+                    change();
+                    return;
+                }
+            } catch (NoSuchFieldException | IllegalAccessException ignored) {}
+        }
+
         Shizuku.addRequestPermissionResultListener(REQUEST_PERMISSION_RESULT_LISTENER);
         try {
             PackageManager packageManager = getPackageManager();
@@ -96,6 +109,11 @@ public class MainActivity extends AppCompatActivity {
                 })
                 .setNegativeButton(getString(R.string.del_guest_negative), null)
                 .show());
+    }
+
+    private void change() {
+        startActivity(new Intent(this, AlterMainActivity.class));
+        finish();
     }
 
     @Override
@@ -285,7 +303,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void saveLogToFile(String command, String output) {
         try {
-            File dir = new File(Environment.getExternalStorageDirectory(), "Documents/GuestManager");
+            File dir = new File(Environment.getExternalStorageDirectory(), "Documents/UserHopper");
             if (!dir.exists()) {
                 dir.mkdirs();
             }
