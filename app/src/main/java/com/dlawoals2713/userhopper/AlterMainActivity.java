@@ -169,7 +169,7 @@ public class AlterMainActivity extends AppCompatActivity {
 
         binding.guestStart.setOnClickListener(v -> {
             setButtons(false, false, false, false);  // 중복 클릭 방지
-            binding.textview.setText("디지털 유산 사용자를 준비하는 중입니다...");
+            binding.textview.setText(getString(R.string.pre_legacy));
 
             disableLegacy(guestUserId, true, () -> ensureInstalled(shizukuPackage, () -> ensureInstalled(getPackageName(), this::switchToGuest, this::abortStart), this::abortStart));
         });
@@ -186,13 +186,15 @@ public class AlterMainActivity extends AppCompatActivity {
             }
 
             enableLegacy(currentId, () -> {
+                binding.textview.setText(getString(R.string.run_exit));
+
                 String command = "am switch-user " + OWNER_USER_ID;
                 exec(command, true, (stdout, stderr) -> {
                     if (!stderr.isEmpty()) {
                         handleError(command, stderr);
                         return;
                     }
-                    binding.textview.setText(getString(R.string.run_guest_exit));
+                    finish();
                 });
             });
         }));
@@ -215,9 +217,11 @@ public class AlterMainActivity extends AppCompatActivity {
                 .show());
 
         binding.guestDestroy.setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
-                .setTitle(getString(R.string.del_guest_title))
-                .setMessage(getString(R.string.del_legacy_message))
-                .setPositiveButton(getString(R.string.del_guest_positive), (d, w) -> {
+                .setTitle(getString(R.string.del_title))
+                .setMessage(getString(R.string.del_message, getString(R.string.app_name_digitallegacy)))
+                .setPositiveButton(getString(R.string.del_ok), (d, w) -> {
+                    binding.textview.setText(getString(R.string.run_destroy, getString(R.string.app_name_digitallegacy)));
+
                     String command = "pm remove-user " + guestUserId;
                     exec(command, true, (stdout, stderr) -> {
                         if (!stderr.isEmpty()) {
@@ -229,7 +233,7 @@ public class AlterMainActivity extends AppCompatActivity {
                         refresh();
                     });
                 })
-                .setNegativeButton(getString(R.string.del_guest_negative), null)
+                .setNegativeButton(getString(R.string.del_no), null)
                 .show());
     }
 
@@ -258,7 +262,7 @@ public class AlterMainActivity extends AppCompatActivity {
                 guestUserId = -1;
                 guestSessionRunning = false;
                 busy = false;
-                binding.textview.setText(getString(R.string.err_legacy_not_detected));
+                binding.textview.setText(getString(R.string.err_not_detected, getString(R.string.app_name_digitallegacy)));
                 setButtons(true, false, false, false);
                 if (creating) {
                     handler.postDelayed(pollRunnable, POLL_INTERVAL_MS);
@@ -268,7 +272,7 @@ public class AlterMainActivity extends AppCompatActivity {
 
             guestUserId = id;
             guestSessionRunning = isUserRunning(stdout, id);
-            binding.textview.setText(getString(R.string.suc_legacy_detected, String.valueOf(id)));
+            binding.textview.setText(getString(R.string.suc_detected, getString(R.string.app_name_digitallegacy), String.valueOf(id)));
 
             if (isLegacyUser) {
                 setButtons(false, false, true, false);
@@ -426,7 +430,7 @@ public class AlterMainActivity extends AppCompatActivity {
                 handleError(command, stderr);
             } else {
                 guestSessionRunning = true;
-                binding.textview.setText(getString(R.string.run_legacy_start));
+                binding.textview.setText(getString(R.string.run_legacy_start, getString(R.string.app_name_digitallegacy)));
             }
             setButtons(false, true, false, true);
         });

@@ -91,36 +91,38 @@ public class MainActivity extends AppCompatActivity {
         });
 
         binding.guestStart.setOnClickListener(v -> {
+            binding.textview.setText(getString(R.string.run_guest_start, getString(R.string.app_name_guest)));
+
             String command = "am switch-user " + GUEST_USER_ID;
             _executeCommand(command, 4);
-
-            binding.textview.setText(getString(R.string.run_guest_start));
         });
 
         binding.guestExit.setOnClickListener(v -> {
+            binding.textview.setText(getString(R.string.run_exit));
+
             String command = "am switch-user 0";
             _executeCommand(command, 5);
 
-            binding.textview.setText(getString(R.string.run_guest_exit));
+            finish();
         });
 
         binding.guestEnd.setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.ui_guest_end))
-                .setMessage(getString(R.string.ui_terminate_message, "Guest"))
+                .setMessage(getString(R.string.ui_terminate_message, getString(R.string.app_name_guest)))
                 .setPositiveButton(getString(R.string.ui_terminate_ok), (d, w) -> _executeCommand("am stop-user -w -f " + GUEST_USER_ID, 6))
                 .setNegativeButton(getString(R.string.ui_terminate_no), null)
                 .show());
 
         binding.guestDestroy.setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
-                .setTitle(getString(R.string.del_guest_title))
-                .setMessage(getString(R.string.del_guest_message))
-                .setPositiveButton(getString(R.string.del_guest_positive), (_dialog, _d) -> {
+                .setTitle(getString(R.string.del_title))
+                .setMessage(getString(R.string.del_message, getString(R.string.app_name_guest)))
+                .setPositiveButton(getString(R.string.del_ok), (_dialog, _d) -> {
+                    binding.textview.setText(getString(R.string.run_destroy, getString(R.string.app_name_guest)));
+
                     String command = "pm remove-user " + GUEST_USER_ID;
                     _executeCommand(command, 4);
-
-                    binding.textview.setText(getString(R.string.run_guest_destroy));
                 })
-                .setNegativeButton(getString(R.string.del_guest_negative), null)
+                .setNegativeButton(getString(R.string.del_no), null)
                 .show());
     }
 
@@ -239,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(this, getString(R.string.err_accoured, stderr), Toast.LENGTH_LONG).show();
                     saveLogToFile(_cmd, stderr);
                 } else if (option == 6) {
-                    binding.textview.setText(getString(R.string.suc_terminated, "Guest"));
+                    binding.textview.setText(getString(R.string.suc_terminated, getString(R.string.app_name_guest)));
                     updateStatus(1);
                 } else if (!stdout.isEmpty()) {
                     if (option == 0) {
@@ -250,7 +252,7 @@ public class MainActivity extends AppCompatActivity {
                         if (parsedId != -1) {
                             GUEST_USER_ID = parsedId;
                             guestSessionRunning = isUserRunning(stdout, parsedId);
-                            binding.textview.setText(getString(R.string.suc_guest_detected, String.valueOf(GUEST_USER_ID)));
+                            binding.textview.setText(getString(R.string.suc_detected, getString(R.string.app_name_guest), String.valueOf(GUEST_USER_ID)));
                             updateStatus(2);
                         } else {
                             parsedId = parseLegacyUserId(stdout);
@@ -258,7 +260,7 @@ public class MainActivity extends AppCompatActivity {
                                 change();
                             } else {
                                 guestSessionRunning = false;
-                                binding.textview.setText(getString(R.string.err_guest_not_detected));
+                                binding.textview.setText(getString(R.string.err_not_detected, getString(R.string.app_name_guest)));
                                 updateStatus(0);
                             }
                         }
@@ -269,7 +271,7 @@ public class MainActivity extends AppCompatActivity {
                         binding.textview.setText(getString(R.string.suc_manager_installed));
                         updateStatus(4);
                     } else if (option == 4) {
-                        binding.textview.setText(getString(R.string.suc_destroyed, "Guest"));
+                        binding.textview.setText(getString(R.string.suc_destroyed, getString(R.string.app_name_guest)));
                         recreate();
                     } else {
                         Toast.makeText(this, getString(R.string.suc_responded, stdout), Toast.LENGTH_SHORT).show();
