@@ -1,32 +1,33 @@
 <resources>
     <string name="app_name" translatable="false">Guest Manager</string>
-    <string name="err_accoured">Error: %1$s</string>
-    <string name="err_shizuku_not_started">Shizuku service not started!</string>
-    <string name="err_shizuku_not_installed">Shizuku not installed. Please install from the store.</string>
-    <string name="err_guest_not_detected">Guest user not detected</string>
-    <string name="err_cmd_not_response">No response</string>
-    <string name="suc_guest_created">Guest user created</string>
-    <string name="suc_guest_detected">Guest ID detected: %1$s</string>
-    <string name="suc_shizuku_installed">Shizuku install success</string>
-    <string name="suc_manager_installed">Manager install success</string>
-    <string name="suc_guest_destroyed">Guest user destroy success</string>
-    <string name="suc_responded">Responded: %1$s</string>
-    <string name="run_guest_start">Starting Guest…\nDO NOT Start over the session!</string>
-    <string name="run_guest_exit">Returning to Owner</string>
-    <string name="run_guest_destroy">Removing the Guest</string>
-    <string name="run_cmd_running">Command is running…</string>
-    <string name="per_granted">Shizuku permission was granted</string>
-    <string name="per_denied">Shizuku permission was not granted</string>
-    <string name="del_guest_title">Warning</string>
-    <string name="del_guest_message">If you destroy the Guest User, your guest user\'s data will be lost!</string>
-    <string name="del_guest_positive">Destroy</string>
-    <string name="del_guest_negative">Cancel</string>
+    <string name="app_name_digitallegacy" translatable="false">Digital Legacy</string>
+    <string name="err_accoured" translatable="false">Error: %1$s</string>
+    <string name="err_shizuku_not_started" translatable="false">Shizuku service not started!</string>
+    <string name="err_shizuku_not_installed" translatable="false">Shizuku not installed. Please install from the store.</string>
+    <string name="err_guest_not_detected" translatable="false">Guest user not detected</string>
+    <string name="err_cmd_not_response" translatable="false">No response</string>
+    <string name="suc_guest_created" translatable="false">Guest user created</string>
+    <string name="suc_guest_detected" translatable="false">Guest ID detected: %1$s</string>
+    <string name="suc_shizuku_installed" translatable="false">Shizuku install success</string>
+    <string name="suc_manager_installed" translatable="false">Manager install success</string>
+    <string name="suc_guest_destroyed" translatable="false">Guest user destroy success</string>
+    <string name="suc_responded" translatable="false">Responded: %1$s</string>
+    <string name="run_guest_start" translatable="false">Starting Guest…\nDO NOT Start over the session!</string>
+    <string name="run_guest_exit" translatable="false">Returning to Owner</string>
+    <string name="run_guest_destroy" translatable="false">Removing the Guest</string>
+    <string name="run_cmd_running" translatable="false">Command is running…</string>
+    <string name="per_granted" translatable="false">Shizuku permission was granted</string>
+    <string name="per_denied" translatable="false">Shizuku permission was not granted</string>
+    <string name="del_guest_title" translatable="false">Warning</string>
+    <string name="del_guest_message" translatable="false">If you destroy the Guest User, your guest user\'s data will be lost!</string>
+    <string name="del_guest_positive" translatable="false">Destroy</string>
+    <string name="del_guest_negative" translatable="false">Cancel</string>
 
-    <string name="ui_refresh">Refresh</string>
-    <string name="ui_create">Create Guest user</string>
-    <string name="ui_install_shizuku">Install Shizuku</string>
-    <string name="ui_install_manager">Install Manager</string>
-    <string name="ui_guest_start">Start Guest</string>
-    <string name="ui_guest_exit">Exit Guest</string>
-    <string name="ui_guest_destroy">Destroy Guest</string>
+    <string name="ui_refresh" translatable="false">Refresh</string>
+    <string name="ui_create" translatable="false">Create Guest user</string>
+    <string name="ui_install_shizuku" translatable="false">Install Shizuku</string>
+    <string name="ui_install_manager" translatable="false">Install Manager</string>
+    <string name="ui_guest_start" translatable="false">Start Guest</string>
+    <string name="ui_guest_exit" translatable="false">Exit Guest</string>
+    <string name="ui_guest_destroy" translatable="false">Destroy Guest</string>
 </resources>

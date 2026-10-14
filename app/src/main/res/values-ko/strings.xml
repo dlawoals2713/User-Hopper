@@ -1,4 +1,5 @@
 <resources>
+    <string name="app_name_digitallegacy">디지털 유산</string>
     <string name="err_accoured">오류 발생: %1$s</string>
     <string name="err_shizuku_not_started">Shizuku 서비스가 시작되지 않았습니다!</string>
     <string name="err_shizuku_not_installed">Shizuku가 설치되어 있지 않습니다. 스토어에서 설치하세요.</string>
