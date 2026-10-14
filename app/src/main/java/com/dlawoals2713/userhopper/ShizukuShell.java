@@ -1,6 +1,5 @@
-package com.dlawoals2713.guest.manager;
+package com.dlawoals2713.userhopper;
 
-import android.os.Environment;
 import android.content.Context;
 
 import java.io.BufferedReader;
@@ -25,7 +24,7 @@ public class ShizukuShell {
         mCommand = command;
         mListener = listener;
 
-        logDir = new File(context.getExternalFilesDir(null), "GuestManager");
+        logDir = new File(context.getExternalFilesDir(null), "UserHopper");
 
         if (!logDir.exists()) {
             logDir.mkdirs();

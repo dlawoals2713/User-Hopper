@@ -1,4 +1,4 @@
-package com.dlawoals2713.guest.manager;
+package com.dlawoals2713.userhopper;
 
 import android.app.ProgressDialog;
 import android.content.pm.PackageInfo;
@@ -10,7 +10,7 @@ import android.widget.Toast;
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.dlawoals2713.guest.manager.databinding.ActivityMainBinding;
+import com.dlawoals2713.userhopper.databinding.ActivityMainBinding;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.io.File;
