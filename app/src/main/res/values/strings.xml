@@ -15,6 +15,7 @@
     <string name="suc_destroyed" translatable="false">%1$s user destroy success</string>
     <string name="suc_responded" translatable="false">Responded: %1$s</string>
     <string name="pre_legacy" translatable="false">Preparing…</string>
+    <string name="pre_create" translatable="false">Open \'Digital Legacy settings\' at the top, then tap \'Access digital legacy\'.</string>
     <string name="run_guest_start" translatable="false">Starting %1$s…\nDO NOT Start over the session!</string>
     <string name="run_legacy_start" translatable="false">Starting %1$s…</string>
     <string name="run_exit" translatable="false">Switching to Owner</string>

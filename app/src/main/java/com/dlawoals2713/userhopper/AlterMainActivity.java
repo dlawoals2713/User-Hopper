@@ -178,7 +178,7 @@ public class AlterMainActivity extends AppCompatActivity {
             intent.setData(Uri.parse("package:" + LEGACY_PACKAGE));
             startActivity(intent);
 
-            Toast.makeText(this, "상단의 '디지털 유산 설정'을 진입 후, '디지털 유산 요청'을 누르세요.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, getString(R.string.pre_create), Toast.LENGTH_LONG).show();
 
             waitingForCreation = true;
             createRequestedAt = System.currentTimeMillis();
