@@ -1,6 +1,6 @@
 <resources>
-    <string name="app_name" translatable="false">Guest Manager</string>
-    <string name="app_name_digitallegacy" translatable="false">Digital Legacy</string>
+    <string name="app_name" translatable="false">User Hopper</string>
+    <string name="app_name_digitallegacy">Digital Legacy</string>
     <string name="err_accoured" translatable="false">Error: %1$s</string>
     <string name="err_shizuku_not_started" translatable="false">Shizuku service not started!</string>
     <string name="err_shizuku_not_installed" translatable="false">Shizuku not installed. Please install from the store.</string>
