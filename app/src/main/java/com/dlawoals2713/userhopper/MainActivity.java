@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
                 if (version >= 80500) {
                     change();
                     return;
+                } else if (version >= 70000 && version <= 80000) {
+                    binding.change.setVisibility(View.VISIBLE);
                 }
             } catch (NoSuchFieldException | IllegalAccessException ignored) {}
         }
@@ -67,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(this, getString(R.string.err_shizuku_not_installed), Toast.LENGTH_LONG).show();
         }
 
+        binding.change.setOnClickListener(v -> change());
         binding.refresh.setOnClickListener(v -> recreate());
 
         binding.create.setOnClickListener(v -> {

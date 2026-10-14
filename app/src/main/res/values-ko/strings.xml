@@ -27,6 +27,7 @@
     <string name="del_guest_positive">삭제</string>
     <string name="del_guest_negative">취소</string>
 
+    <string name="ui_change">매니저 변경</string>
     <string name="ui_refresh">새로고침</string>
     <string name="ui_create">게스트 사용자 생성</string>
     <string name="ui_legacy_create" translatable="false">디지털 유산 사용자 생성</string>

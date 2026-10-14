@@ -4,11 +4,13 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.UserManager;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
@@ -85,6 +87,16 @@ public class AlterMainActivity extends AppCompatActivity {
     }
 
     private void initialize() {
+        if (Build.MANUFACTURER.equalsIgnoreCase("samsung")) {
+            try {
+                int version = Build.VERSION.class.getDeclaredField("SEM_PLATFORM_INT").getInt(null) - 90000;
+
+                if (version >= 70000 && version <= 80000) {
+                    binding.change.setVisibility(View.VISIBLE);
+                }
+            } catch (NoSuchFieldException | IllegalAccessException ignored) {}
+        }
+
         setButtons(false, false, false, false);
 
         Shizuku.addRequestPermissionResultListener(REQUEST_PERMISSION_RESULT_LISTENER);
@@ -104,6 +116,11 @@ public class AlterMainActivity extends AppCompatActivity {
         Shizuku.addBinderReceivedListenerSticky(BINDER_RECEIVED_LISTENER);
 
         setupButtons();
+    }
+
+    private void change() {
+        startActivity(new Intent(this, AlterMainActivity.class));
+        finish();
     }
 
     private final Shizuku.OnBinderReceivedListener BINDER_RECEIVED_LISTENER = () -> runOnUiThread(() -> {
@@ -132,6 +149,7 @@ public class AlterMainActivity extends AppCompatActivity {
     }
 
     private void setupButtons() {
+        binding.change.setOnClickListener(v -> change());
         binding.refresh.setOnClickListener(v -> recreate());
 
         binding.create.setOnClickListener(v -> {

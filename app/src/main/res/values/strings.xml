@@ -28,6 +28,7 @@
     <string name="del_guest_positive" translatable="false">Destroy</string>
     <string name="del_guest_negative" translatable="false">Cancel</string>
 
+    <string name="ui_change" translatable="false">Switch Manager</string>
     <string name="ui_refresh" translatable="false">Refresh</string>
     <string name="ui_create" translatable="false">Create Guest user</string>
     <string name="ui_legacy_create" translatable="false">Create Digital Legacy user</string>

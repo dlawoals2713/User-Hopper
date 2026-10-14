@@ -8,6 +8,16 @@
     tools:context=".MainActivity">
 
     <ImageButton
+        android:id="@+id/change"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:contentDescription="@string/ui_change"
+        android:src="@drawable/ic_oui_back_and_forth"
+        android:background="?listChoiceBackgroundIndicator"
+        android:layout_gravity="start"
+        android:visibility="gone"/>
+
+    <ImageButton
         android:id="@+id/refresh"
         android:layout_width="60dp"
         android:layout_height="60dp"
