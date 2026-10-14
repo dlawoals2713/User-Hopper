@@ -296,6 +296,7 @@ public class AlterMainActivity extends AppCompatActivity {
 
             if (isLegacyUser) {
                 setButtons(false, false, true, false);
+                binding.guestExit.setVisibility(View.GONE);
             } else if (creating) {
                 setButtons(false, false, false, false);
                 disableLegacy(id, false, () -> ensureInstalledWithRetry(shizukuPackage, () -> ensureInstalledWithRetry(getPackageName(), this::onGuestReady)));
