@@ -1,7 +1,3 @@
-|                Main Screen 1                |                Main Screen 2                |                 Guest Screen                |
-| :-----------------------------------------: | :-----------------------------------------: | :-----------------------------------------: |
-| <img src="./images/image1.jpg" width="300"> | <img src="./images/image2.jpg" width="300"> | <img src="./images/image3.jpg" width="300"> |
-
 # User-Hopper
 > Enable guest and secondary-user management on Android devices where the manufacturer has restricted multi-user functionality, without root access.
 
@@ -31,6 +27,10 @@
 
 ## Usage
 ### Guest mode
+|                  Main Screen 1                  |                  Main Screen 2                  |                  Guest Screen                   |
+|:-----------------------------------------------:|:-----------------------------------------------:|:-----------------------------------------------:|
+| <img src="./images/image11_en.jpg" width="300"> | <img src="./images/image12_en.jpg" width="300"> | <img src="./images/image13_en.jpg" width="300"> |
+
 1. Start Shizuku and open User-Hopper. Grant the requested Shizuku permission.
 2. Tap **Create Guest User** to create a guest user.
 3. Tap **Install Shizuku** and **Install Manager** to install both apps into the guest user.
@@ -38,6 +38,10 @@
 5. To return to the owner user, open User-Hopper inside the guest user and tap **Exit Guest**.
 
 ### Digital Legacy mode
+|                  Main Screen 1                  |                  Main Screen 2                  |              Digital Legacy Screen              |
+|:-----------------------------------------------:|:-----------------------------------------------:|:-----------------------------------------------:|
+| <img src="./images/image21_en.jpg" width="300"> | <img src="./images/image22_en.jpg" width="300"> | <img src="./images/image23_en.jpg" width="300"> |
+
 1. Start Shizuku and open User-Hopper. Grant the requested Shizuku permission.
 2. Tap **Create Digital Legacy User** to open the Digital Legacy app's information page.
 3. Open the Digital Legacy settings and tap the Digital Legacy request button to create the user and switch to it.
