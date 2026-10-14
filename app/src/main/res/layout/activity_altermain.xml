@@ -69,6 +69,13 @@
                 android:text="@string/ui_legacy_exit"/>
 
             <Button
+                android:id="@+id/guest_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/ui_legacy_end"/>
+
+            <Button
                 android:id="@+id/guest_destroy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

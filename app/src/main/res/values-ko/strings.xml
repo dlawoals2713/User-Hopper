@@ -11,8 +11,8 @@
     <string name="suc_legacy_detected">디지털 유산 ID 감지됨: %1$s</string>
     <string name="suc_shizuku_installed">Shizuku 설치 완료</string>
     <string name="suc_manager_installed">매니저 설치 완료</string>
-    <string name="suc_guest_destroyed">게스트 삭제 완료</string>
-    <string name="suc_legacy_destroyed" translatable="false">디지털 유산 삭제 완료</string>
+    <string name="suc_terminated">%1$s 세션 종료 완료</string>
+    <string name="suc_destroyed">%1$s 사용자 삭제 완료</string>
     <string name="suc_responded">응답: %1$s</string>
     <string name="run_guest_start">게스트를 시작하는 중…\n절대 세션을 다시 시작 하지 마세요!</string>
     <string name="run_legacy_start" translatable="false">디지털 유산을 시작하는 중…</string>
@@ -27,7 +27,6 @@
     <string name="del_guest_positive">삭제</string>
     <string name="del_guest_negative">취소</string>
 
-    <string name="ui_change">매니저 변경</string>
     <string name="ui_refresh">새로고침</string>
     <string name="ui_create">게스트 사용자 생성</string>
     <string name="ui_legacy_create" translatable="false">디지털 유산 사용자 생성</string>
@@ -35,8 +34,13 @@
     <string name="ui_install_manager">매니저 앱 설치</string>
     <string name="ui_guest_start">게스트 시작</string>
     <string name="ui_guest_exit">게스트 종료</string>
+    <string name="ui_guest_end" translatable="false">게스트 세션 종료</string>
+    <string name="ui_terminate_message" translatable="false">%1$s 사용자에서 실행 중인 앱과 서비스를 모두 종료합니다.</string>
+    <string name="ui_terminate_ok" translatable="false">종료</string>
+    <string name="ui_terminate_no" translatable="false">취소</string>
     <string name="ui_guest_destroy">게스트 삭제</string>
     <string name="ui_legacy_start" translatable="false">디지털 유산 시작</string>
     <string name="ui_legacy_exit" translatable="false">디지털 유산 종료</string>
+    <string name="ui_legacy_end" translatable="false">디지털 유산 세션 종료</string>
     <string name="ui_legacy_destroy" translatable="false">디지털 유산 삭제</string>
 </resources>

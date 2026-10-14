@@ -83,6 +83,13 @@
                 android:text="@string/ui_guest_exit"/>
 
             <Button
+                android:id="@+id/guest_end"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:enabled="false"
+                android:text="@string/ui_guest_end"/>
+
+            <Button
                 android:id="@+id/guest_destroy"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

@@ -28,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private int GUEST_USER_ID = -1;
     private final String shizukuPackage = "moe.shizuku.privileged.api";
+    private boolean guestSessionRunning = false;
+    private boolean resumedOnce = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +104,13 @@ public class MainActivity extends AppCompatActivity {
             binding.textview.setText(getString(R.string.run_guest_exit));
         });
 
+        binding.guestEnd.setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.ui_guest_end))
+                .setMessage(getString(R.string.ui_terminate_message, "Guest"))
+                .setPositiveButton(getString(R.string.ui_terminate_ok), (d, w) -> _executeCommand("am stop-user -w -f " + GUEST_USER_ID, 6))
+                .setNegativeButton(getString(R.string.ui_terminate_no), null)
+                .show());
+
         binding.guestDestroy.setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.del_guest_title))
                 .setMessage(getString(R.string.del_guest_message))
@@ -127,12 +136,31 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if (isFinishing()) return;
+        if (resumedOnce && hasShizukuPermission()) {
+            updateStatus(1);
+        }
+        resumedOnce = true;
+    }
+
+    private boolean hasShizukuPermission() {
+        try {
+            return Shizuku.pingBinder() && Shizuku.checkSelfPermission() == PackageManager.PERMISSION_GRANTED;
+        } catch (Throwable t) {
+            return false;
+        }
+    }
+
     private void updateStatus(int option) {
         binding.create.setEnabled(false);
         binding.installShizuku.setEnabled(false);
         binding.installManager.setEnabled(false);
         binding.guestStart.setEnabled(false);
         binding.guestExit.setEnabled(false);
+        binding.guestEnd.setEnabled(false);
         binding.guestDestroy.setEnabled(false);
 
         changeStatus(option);
@@ -173,6 +201,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if (userId == GUEST_USER_ID) {
                     binding.guestExit.setEnabled(true);
+                    binding.change.setVisibility(View.GONE);
                 } else {
                     binding.guestStart.setEnabled(true);
                 }
@@ -209,6 +238,9 @@ public class MainActivity extends AppCompatActivity {
                 if (!stderr.isEmpty()) {
                     Toast.makeText(this, getString(R.string.err_accoured, stderr), Toast.LENGTH_LONG).show();
                     saveLogToFile(_cmd, stderr);
+                } else if (option == 6) {
+                    binding.textview.setText(getString(R.string.suc_terminated, "Guest"));
+                    updateStatus(1);
                 } else if (!stdout.isEmpty()) {
                     if (option == 0) {
                         binding.textview.setText(getString(R.string.suc_guest_created));
@@ -217,11 +249,18 @@ public class MainActivity extends AppCompatActivity {
                         int parsedId = parseGuestUserId(stdout);
                         if (parsedId != -1) {
                             GUEST_USER_ID = parsedId;
+                            guestSessionRunning = isUserRunning(stdout, parsedId);
                             binding.textview.setText(getString(R.string.suc_guest_detected, String.valueOf(GUEST_USER_ID)));
                             updateStatus(2);
                         } else {
-                            binding.textview.setText(getString(R.string.err_guest_not_detected));
-                            updateStatus(0);
+                            parsedId = parseLegacyUserId(stdout);
+                            if (parsedId != -1) {
+                                change();
+                            } else {
+                                guestSessionRunning = false;
+                                binding.textview.setText(getString(R.string.err_guest_not_detected));
+                                updateStatus(0);
+                            }
                         }
                     } else if (option == 2) {
                         binding.textview.setText(getString(R.string.suc_shizuku_installed));
@@ -230,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
                         binding.textview.setText(getString(R.string.suc_manager_installed));
                         updateStatus(4);
                     } else if (option == 4) {
-                        binding.textview.setText(getString(R.string.suc_guest_destroyed));
+                        binding.textview.setText(getString(R.string.suc_destroyed, "Guest"));
                         recreate();
                     } else {
                         Toast.makeText(this, getString(R.string.suc_responded, stdout), Toast.LENGTH_SHORT).show();
@@ -260,6 +299,35 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         return -1;
+    }
+
+    private int parseLegacyUserId(String stdout) {
+        Pattern pattern = Pattern.compile("UserInfo\\{(\\d+):([^:]+):");
+        Matcher matcher = pattern.matcher(stdout);
+
+        while (matcher.find()) {
+            String userId = matcher.group(1);
+            String userName = matcher.group(2);
+
+            if (getString(R.string.app_name_digitallegacy).equalsIgnoreCase(userName)) {
+                try {
+                    return Integer.parseInt(userId);
+                } catch (NumberFormatException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return -1;
+    }
+
+    private boolean isUserRunning(String stdout, int userId) {
+        String prefix = "UserInfo{" + userId + ":";
+        for (String line : stdout.split("\n")) {
+            if (!line.contains(prefix)) continue;
+            int end = line.lastIndexOf('}');
+            return end >= 0 && line.substring(end + 1).contains("running");
+        }
+        return false;
     }
 
     private interface OnPackageCheckListener {
@@ -302,7 +370,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void enableDestroyButton() {
-        getCurrentUserId(userId -> binding.guestDestroy.setEnabled(userId != -1 && userId != GUEST_USER_ID));
+        getCurrentUserId(userId -> {
+            boolean inOwnerUser = userId != -1 && userId != GUEST_USER_ID;
+            binding.guestDestroy.setEnabled(inOwnerUser);
+            binding.guestEnd.setEnabled(inOwnerUser && guestSessionRunning);
+        });
     }
 
     private void saveLogToFile(String command, String output) {

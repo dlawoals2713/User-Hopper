@@ -48,6 +48,7 @@ public class AlterMainActivity extends AppCompatActivity {
 
     private static final long CREATE_WAIT_TIMEOUT_MS = 10 * 60 * 1000;
     private long createRequestedAt = 0;
+    private boolean guestSessionRunning = false;
 
     private boolean isWaitingForCreation() {
         return waitingForCreation && System.currentTimeMillis() - createRequestedAt < CREATE_WAIT_TIMEOUT_MS;
@@ -196,6 +197,23 @@ public class AlterMainActivity extends AppCompatActivity {
             });
         }));
 
+        binding.guestEnd.setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
+                .setTitle(getString(R.string.ui_legacy_end))
+                .setMessage(getString(R.string.ui_terminate_message, getString(R.string.app_name_digitallegacy)))
+                .setPositiveButton(getString(R.string.ui_terminate_ok), (d, w) -> {
+                    String command = "am stop-user -w -f " + guestUserId;
+                    exec(command, true, (stdout, stderr) -> {
+                        if (!stderr.isEmpty()) {
+                            handleError(command, stderr);
+                            return;
+                        }
+                        binding.textview.setText(getString(R.string.suc_terminated, getString(R.string.app_name_digitallegacy)));
+                        refresh();
+                    });
+                })
+                .setNegativeButton(getString(R.string.ui_terminate_no), null)
+                .show());
+
         binding.guestDestroy.setOnClickListener(v -> new MaterialAlertDialogBuilder(this)
                 .setTitle(getString(R.string.del_guest_title))
                 .setMessage(getString(R.string.del_legacy_message))
@@ -207,7 +225,7 @@ public class AlterMainActivity extends AppCompatActivity {
                             return;
                         }
                         guestUserId = -1;
-                        binding.textview.setText(getString(R.string.suc_legacy_destroyed));
+                        binding.textview.setText(getString(R.string.suc_destroyed, getString(R.string.app_name_digitallegacy)));
                         refresh();
                     });
                 })
@@ -238,6 +256,7 @@ public class AlterMainActivity extends AppCompatActivity {
 
             if (id == -1) {
                 guestUserId = -1;
+                guestSessionRunning = false;
                 busy = false;
                 binding.textview.setText(getString(R.string.err_legacy_not_detected));
                 setButtons(true, false, false, false);
@@ -248,6 +267,7 @@ public class AlterMainActivity extends AppCompatActivity {
             }
 
             guestUserId = id;
+            guestSessionRunning = isUserRunning(stdout, id);
             binding.textview.setText(getString(R.string.suc_legacy_detected, String.valueOf(id)));
 
             if (isLegacyUser) {
@@ -260,6 +280,16 @@ public class AlterMainActivity extends AppCompatActivity {
                 setButtons(false, true, false, true);
             }
         });
+    }
+
+    private boolean isUserRunning(String stdout, int userId) {
+        String prefix = "UserInfo{" + userId + ":";
+        for (String line : stdout.split("\n")) {
+            if (!line.contains(prefix)) continue;
+            int end = line.lastIndexOf('}');
+            return end >= 0 && line.substring(end + 1).contains("running");
+        }
+        return false;
     }
 
     private void disableLegacy(int userId, boolean showProgress, Runnable next) {
@@ -329,6 +359,7 @@ public class AlterMainActivity extends AppCompatActivity {
         binding.create.setEnabled(create);
         binding.guestStart.setEnabled(start);
         binding.guestExit.setEnabled(exit);
+        binding.guestEnd.setEnabled(destroy && guestSessionRunning);
         binding.guestDestroy.setEnabled(destroy);
     }
 
@@ -394,6 +425,7 @@ public class AlterMainActivity extends AppCompatActivity {
             if (!stderr.isEmpty()) {
                 handleError(command, stderr);
             } else {
+                guestSessionRunning = true;
                 binding.textview.setText(getString(R.string.run_legacy_start));
             }
             setButtons(false, true, false, true);
