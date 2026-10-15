@@ -11,8 +11,8 @@ android {
         minSdk 24
         //noinspection ExpiredTargetSdkVersion
         targetSdk 30
-        versionCode 10200
-        versionName "1.2"
+        versionCode 20000
+        versionName "2.0"
     }
 
     buildFeatures {

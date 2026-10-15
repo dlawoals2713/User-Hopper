@@ -19,5 +19,5 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "guest-manager"
+rootProject.name = "user-hopper"
 include ':app'
